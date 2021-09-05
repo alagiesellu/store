@@ -1,7 +1,7 @@
 # For more information: https://laravel.com/docs/sail
 version: '3'
 services:
-    laravel.test:
+    laravel.app:
         build:
             context: ./docker
             dockerfile: Dockerfile
@@ -21,37 +21,11 @@ services:
             - '.:/var/www/html'
 #        entrypoint:
 #          - artisan-init.sh
-        networks:
-            - sail
-#        depends_on:
-#          - mysql
-#    mysql:
-#      image: 'mysql:8.0'
-#      ports:
-#        - '${FORWARD_DB_PORT:-3306}:3306'
-#      environment:
-#        MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-#        MYSQL_DATABASE: '${DB_DATABASE}'
-#        MYSQL_USER: '${DB_USERNAME}'
-#        MYSQL_PASSWORD: '${DB_PASSWORD}'
-#        MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
-#      volumes:
-#        - 'sailmysql:/var/lib/mysql'
-#      networks:
-#        - sail
-#      healthcheck:
-#        test: ["CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}"]
-#        retries: 3
-#        timeout: 5s
+#          - start-container
+        restart: always
+        network_mode: host
+
     memcached:
-        image: 'memcached:alpine'
-        ports:
-            - '11211:11211'
-        networks:
-            - sail
-networks:
-    sail:
-        driver: bridge
-volumes:
-  sailmysql:
-    driver: local
+      image: memcached
+      ports:
+        - "11211:11211"
