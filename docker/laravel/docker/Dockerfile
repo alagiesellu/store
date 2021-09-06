@@ -47,14 +47,14 @@ RUN groupadd --force -g $WWWGROUP sail
 RUN useradd -ms /bin/bash --no-user-group -g $WWWGROUP -u 1337 sail
 
 COPY start-container /usr/local/bin/start-container
-COPY artisan-init.sh /usr/local/bin/artisan-init.sh
+COPY artisan-init /usr/local/bin/artisan-init
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY php.ini /etc/php/8.0/cli/conf.d/99-sail.ini
 
 RUN chmod +x /usr/local/bin/start-container
-RUN chmod +x /usr/local/bin/artisan-init.sh
+RUN chmod +x /usr/local/bin/artisan-init
 
 EXPOSE 8000
 
-ENTRYPOINT ["start-container"]
+ENTRYPOINT ["artisan-init", "start-container"]
