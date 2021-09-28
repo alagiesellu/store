@@ -1,9 +1,12 @@
-version: '3'
+version: '3.7'
+
 services:
-    vue_app:
-        build:
-            context: .
-            dockerfile: Dockerfile
-        ports:
-            - "8080:80"
-        restart: always
+
+  my-app-prod:
+    container_name: vue-app-prod
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:80'
+    restart: always
