@@ -1,0 +1,57 @@
+version: "3.7"
+services:
+  app:
+    build:
+      args:
+        user: appuser
+        uid: 1000
+      context: ../laraver-nginx-letsencrypt
+      dockerfile: Dockerfile
+    image: laravel
+    container_name: laravel-app
+    restart: always
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+    networks:
+      - laravel
+
+  db:
+    image: mariadb
+    container_name: laravel-db
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+    volumes:
+      - db:/var/lib/mysql
+    networks:
+      - laravel
+
+  nginx-certbot:
+    restart: always
+    image: staticfloat/nginx-certbot
+    ports:
+      - 80:80/tcp
+      - 443:443/tcp
+    environment:
+      CERTBOT_EMAIL: mail@example.com
+      # variable names are space-separated
+      ENVSUBST_VARS: FQDN
+      FQDN: domen.example.com
+    volumes:
+      - ./:/var/www
+      - ./nginx/conf.d:/etc/nginx/user.conf.d:ro
+      - letsencrypt:/etc/letsencrypt
+    networks:
+      - laravel
+
+volumes:
+  letsencrypt:
+  db:
+
+networks:
+  laravel:
+    driver: bridge

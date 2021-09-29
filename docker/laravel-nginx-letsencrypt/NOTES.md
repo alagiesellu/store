@@ -1,0 +1,1 @@
+- [29th Sep, 2021] Successfully deployed stand alone laravel application without Vuejs frontend.
