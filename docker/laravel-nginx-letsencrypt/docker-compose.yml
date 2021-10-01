@@ -5,7 +5,6 @@ services:
       args:
         user: appuser
         uid: 1000
-      context: ../laraver-nginx-letsencrypt
       dockerfile: Dockerfile
     image: laravel
     container_name: laravel-app
