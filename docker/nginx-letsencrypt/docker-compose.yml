@@ -15,7 +15,7 @@ services:
       FE_PORT: ${FE_PORT}
       API_PORT: ${API_PORT}
     volumes:
-      - ./:/var/www
+#      - ./:/var/www
       - ./nginx/conf.d:/etc/nginx/user.conf.d:ro
       - letsencrypt:/etc/letsencrypt
     networks:
